@@ -45,16 +45,6 @@ class App extends Component {
       <Router>
         <MuiThemeProvider>
           <Fragment>
-           <inputTag placeholder="press enter/space to +tag" />
-
-           <input type = "button"
-              onClick={this.showModal}
-              value ="Show Modal" />
-           <Modal
-               onClose={this.showModal} 
-               show={this.state.show}>
-               This is working!!
-           </Modal>
             <Navbar
               user={user}
             />
@@ -64,8 +54,19 @@ class App extends Component {
               <Route exact path="/create" component={CreateAccountPage} />
               <Route component={NotFoundPage} />
             </Switch>
+            <inputTag placeholder="press enter/space to +tag" />
+
+           <input type = "button"
+              onClick={this.showModal}
+              value ="Show Modal" />
+           <Modal
+               onClose={this.showModal} 
+               show={this.state.show}>
+               This is working!!
+           </Modal>
           </Fragment>
         </MuiThemeProvider>
+        
       </Router>
     );
   }

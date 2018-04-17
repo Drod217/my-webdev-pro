@@ -13,6 +13,7 @@ const backdropStyle = {
 };
 
 const modalStyle = {
+    color: 'blue',
     backgroundColor: '#fff',
     borderRadius: 5,
     maxWidth: 500,

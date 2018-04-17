@@ -5,10 +5,7 @@ import { withUser } from '../../services/withUser';
 import './HomePage.css';
 import Modal from '/Users/David/my-webdev-pro/client/src/components/Modal/Modal';
 
-const initial = {
-  color: "yellow",
-  fontSize: "15px"
-}
+
 
 class HomePage extends Component {
   state = {
@@ -37,7 +34,7 @@ class HomePage extends Component {
   render() {
     const { user } = this.props; // get the user prop from props
     const { stuff } = this.state; // get stuff from state
-    const modal = <Modal />;
+    
     return (
       <Fragment>
         {user && stuff &&
