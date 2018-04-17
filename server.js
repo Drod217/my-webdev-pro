@@ -6,7 +6,9 @@ const morgan = require("morgan");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-app.use(morgan('dev'));
+require("dotenv").config();
+
+app.use(morgan("dev"));
 // Configure body parser for AJAX requests
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,7 +20,7 @@ if (process.env.NODE_ENV === "production") {
 // we need to pass the express app we want configured!
 // order is important! you need to set up passport
 // before you start using it in your routes.
-require('./passport')(app);
+require("./passport")(app);
 // Add routes, both API and view
 const routes = require("./routes");
 app.use(routes);
@@ -29,7 +31,7 @@ app.use((error, req, res, next) => {
   console.error(error);
   res.json({
     error
-  })
+  });
 });
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
@@ -45,5 +47,3 @@ mongoose.connect(
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
-
-

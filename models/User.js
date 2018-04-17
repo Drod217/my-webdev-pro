@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // bcrypt is the hashing algorithm we'll use to protect stored credentials.
 // NEVER STORE PASSWORDS OR OTHER SENSITIVE DATA AS PLAIN TEXT!!!
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 // TL;DNR: this determines how expensive it is to generate the hash
 // as average computing power grows, you'll increase this number
@@ -22,6 +22,26 @@ const UserSchema = new Schema({
   },
   password: {
     type: String
+  },
+  githubId: {
+    type: String
+  },
+  email: {
+    type: String
+  },
+  name: {
+    type: String
+  },
+  languages: [
+    {
+      type: String
+    }
+  ],
+  currentStreak: {
+    type: Number
+  },
+  longestStreak: {
+    type: Number
   }
 });
 
@@ -34,20 +54,20 @@ const UserSchema = new Schema({
 // but arrow functions preserve "this" as the bound context
 // if you use an arrow function, you'll get an error
 // "user.isModified is not a function"
-UserSchema.pre('save', function(next) {
+UserSchema.pre("save", function(next) {
   const user = this;
 
   // only hash the password if it has been modified (or is new)
-  if (!user.isModified('password')) {
+  if (!user.isModified("password")) {
     return next();
   }
 
   // generate a salt
-  bcrypt.genSalt(WORK_FACTOR, function (err, salt) {
+  bcrypt.genSalt(WORK_FACTOR, function(err, salt) {
     if (err) return next(err);
 
     // hash the password along with our new salt
-    bcrypt.hash(user.password, salt, function (err, hash) {
+    bcrypt.hash(user.password, salt, function(err, hash) {
       if (err) return next(err);
 
       // override the cleartext password with the hashed one
@@ -62,15 +82,15 @@ UserSchema.pre('save', function(next) {
 // This method will validate a given password with the actual password, and resolve
 // true if the password is a match, or false if it is not.
 // This code returns a Promise rather than using the callback style
-UserSchema.methods.validatePassword = function (candidatePassword) {
+UserSchema.methods.validatePassword = function(candidatePassword) {
   return new Promise((resolve, reject) => {
-    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
       if (err) return reject(err);
       resolve(isMatch);
     });
   });
 };
 
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
